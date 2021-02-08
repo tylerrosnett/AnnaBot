@@ -1,9 +1,10 @@
-module.exports = (msg) => {
+module.exports = (msg, tokenInfo) => {
+
   //get the command and arguments the user wrote
   const args = msg.content
     .slice(process.env.COMMAND_PREFIX.length)
     .trim()
-    .split(" ");
+    .split(' ');
   //get the command from the args
   const commandName = args.shift().toLowerCase();
 
@@ -27,7 +28,7 @@ module.exports = (msg) => {
   }
 
   if (!targetCommand) {
-    msg.reply("Command not found. type '/help' to see a list of commands.");
+    msg.reply('Command not found. type \'/help\' to see a list of commands.');
   } else {
     const command = msg.client.commands.get(targetCommand);
 
@@ -36,7 +37,7 @@ module.exports = (msg) => {
     //if the requiredPermissions field doesn't exist or is empty, anyone can run the command
     if (command.requiredPermissions && command.requiredPermissions.length > 0) {
       //get the user's roles
-      const roles = msg.member.roles.cache.map(role => { return role.name });
+      const roles = msg.member.roles.cache.map(role => { return role.name; });
       //compare the user's roles to the requiredPermissions field
       command.requiredPermissions.forEach(roleName => {
         if (roles.find(role => role === roleName)) {
@@ -50,7 +51,7 @@ module.exports = (msg) => {
     //if the user is allowed, run the command
     if (canRun === true) {
       try {
-        command.execute(msg, args);
+        command.execute(msg, args, tokenInfo);
       } catch (err) {
         console.error(err);
         msg.reply('There was an error when running that command.');

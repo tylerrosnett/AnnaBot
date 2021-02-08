@@ -1,8 +1,9 @@
 {
   "name": "discordbot",
   "version": "1.0.0",
-  "description": "",
-  "main": "bot.js",
+  "description": "AnnaBot codebase",
+  "repository": {},
+  "main": "./src/bot.js",
   "scripts": {
     "watch": "nodemon ./bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,13 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
+    "cron": "^1.8.2",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "get-video-id": "^3.1.9",
-    "get-youtube-title": "^1.0.1",
-    "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^7.19.0"
+  }
 }
