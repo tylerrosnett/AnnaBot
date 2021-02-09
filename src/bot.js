@@ -4,7 +4,7 @@ const fs = require('fs');
 const CronJob = require('cron').CronJob;
 const spotifyAuth = require('./utils/spotifyAuth.js');
 const processCommand = require('./utils/processCommand.js');
-const linkAdder = require('./utils/addSong.js');
+const addSong = require('./utils/addSong.js');
 
 var tokenInfo;
 spotifyAuth.refreshToken().then(data=>{ tokenInfo = data;});
@@ -32,7 +32,7 @@ client.on('ready', () => {
 });
 
 client.on('message', (msg) => {
-  linkAdder(msg, tokenInfo);
+  addSong(msg, tokenInfo);
   //run a command if the message starts with the command prefix, isn't sent by a bot, and is in the discord.
   if (msg.content.startsWith(process.env.COMMAND_PREFIX) && !msg.author.bot && msg.guild) {
     processCommand(msg, tokenInfo);
