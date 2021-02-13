@@ -3,15 +3,14 @@ const Discord = require('discord.js');
 module.exports = {
   name: 'help',
   description: 'Reads off all the commands and what they do.',
-  execute(msg, args) {
-    console.log('Using args to make linter happy ' + args.length);
+  execute(msg) {
     //make an embed for the help panel
     let embed = new Discord.MessageEmbed()
       .setTitle('Command Help')
       .setDescription('');
     //go through each initialized command and add it to the embed
     msg.client.commands.forEach((cmd) => {
-      let fieldString = `${process.env.COMMAND_PREFIX}${cmd.name}`;
+      let fieldString = '';
       //go through each potential property and list it if it's in
       if (cmd.description) {
         fieldString += `\n\`Description:\` ${cmd.description}`;
@@ -28,7 +27,7 @@ module.exports = {
         )}`;
       }
 
-      embed.addField(fieldString);
+      embed.addField(`${process.env.COMMAND_PREFIX}${cmd.name}`, fieldString);
     });
 
     msg.channel.send(embed);
