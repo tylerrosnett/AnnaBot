@@ -37,7 +37,7 @@ module.exports = (msg, tokenInfo) => {
     //if the requiredPermissions field doesn't exist or is empty, anyone can run the command
     if (command.requiredPermissions && command.requiredPermissions.length > 0) {
       //get the user's roles
-      const roles = msg.member.roles.cache.map(role => { return role.name; });
+      const roles = msg.member.roles.cache.map(role => role.name);
       //compare the user's roles to the requiredPermissions field
       command.requiredPermissions.forEach(roleName => {
         if (roles.find(role => role === roleName)) {

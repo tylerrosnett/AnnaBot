@@ -4,9 +4,7 @@ const axios = require('axios');
 
 module.exports = async (msg, tokenInfo) => {
 
-  if (msg.channel != process.env.MUSIC_CHANNEL) {
-    console.log('Link was posted outside of music channel');
-  } else {
+  if (msg.channel == process.env.MUSIC_CHANNEL) {
     var spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(tokenInfo.token);
     spotifyApi.setClientId(process.env.SPOTIFY_CLIENT_ID);
@@ -19,46 +17,52 @@ module.exports = async (msg, tokenInfo) => {
 
     if (found != null) {
       const groups = found.groups;
-      if(typeof groups.youtube_id !== 'undefined') {
-      // just so it doesn't show up in automated searches
+      if (groups?.youtube_id) {
         var key = process.env.YOUTUBE_KEY;
-
         var url = 'https://youtube.googleapis.com/youtube/v3';
         try {
           url = url + '/videos?part=snippet&part=contentDetails&id=' + groups.youtube_id + '&key=' + key;
-          console.log(url);
           const response = await axios.get(url);
-          var title = response.data.items[0].snippet.title;
+          const regex = /^(?<name>.*?)(?:[[( ]official.*)*$/i;
+          var title = response.data.items[0].snippet.title.match(regex).groups.name;
+          var category = response.data.items[0].snippet.categoryId;
         } catch (error) {
           console.error(error);
-        } 
+        }
 
-        console.log(title);
-        spotifyApi.searchTracks(title).then(
-          function (data) {
-            spotifyApi
-              .addTracksToPlaylist('2g6uqL6xbKYND7cfitOcVn', [
-                'spotify:track:' + data.body.tracks.items[0].id,
-              ])
-              .then(
-                function () {
-                  msg.channel.send('song added :thumbsup:');
-                },
-                function (err) {
-                  console.log('Something went wrong!', err);
-                }
-              );
-          },
-          function (err) {
-            console.error(err);
-          }
-        );
-        
+        if (category == '10') {
+          spotifyApi.searchTracks(title).then(
+            function (data) {
+              if (data?.body?.tracks?.items?.[0]?.id) {
+                spotifyApi
+                  .addTracksToPlaylist(process.env.PLAYLIST_ID, [
+                    'spotify:track:' + data.body.tracks.items[0].id,
+                  ])
+                  .then(
+                    function () {
+                      msg.channel.send('song added :thumbsup:');
+                    },
+                    function (err) {
+                      console.log('Something went wrong!', err);
+                    }
+                  );
+              } else {
+                msg.channel.send('Wasn\'t able to find a song on Spotify matching this name: ' + title);
+              }
+            },
+            function (err) {
+              console.error(err);
+            }
+          );
+        } else {
+          msg.channel.send('That YouTube Link isn\'t tagged as being music. Try another music link.');
+        }
+
       } else {
         spotifyID = groups.spotify_id;
         spotifyApi
-          .addTracksToPlaylist('2g6uqL6xbKYND7cfitOcVn', [
-            'spotify:track:' +spotifyID,
+          .addTracksToPlaylist(process.env.PLAYLIST_ID, [
+            'spotify:track:' + spotifyID,
           ])
           .then(
             function () {
