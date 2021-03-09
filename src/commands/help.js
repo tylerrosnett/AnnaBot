@@ -15,12 +15,23 @@ module.exports = {
       if (cmd.description) {
         fieldString += `\n\`Description:\` ${cmd.description}`;
       }
+      //usage examples
       if (cmd.example) {
-        fieldString += `\n\`Example:\` ${cmd.example}`;
+        //differentiate between a single example and multiple
+        if (Array.isArray(cmd.example) === true) {
+          fieldString += '\n`Examples:`';
+          cmd.example.forEach(example => {
+            fieldString += `\n${example}`
+          });
+        } else if (cmd.example?.length > 0) {
+          fieldString += `\n\`Example:\` ${cmd.example}`;
+        }
       }
+      //aliases
       if (cmd.aliases && cmd.aliases.length > 0) {
         fieldString += `\n\`Aliases:\` ${cmd.aliases.join(', ')}`;
       }
+      //required permissions
       if (cmd.requiredPermissions && cmd.requiredPermissions.length > 0) {
         fieldString += `\n\`Needed Permissions:\` ${cmd.requiredPermissions.join(
           ', '
