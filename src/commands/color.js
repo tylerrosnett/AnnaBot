@@ -14,7 +14,7 @@ module.exports = {
   requiredPermissions: [],
   async execute(msg, args) {
     // make sure the user supplied an argument
-    if (args.length !== 1) {
+    if (args.length < 1) {
       msg.channel.send(
         "please supply either a color name/hex, or a person's name if you want their color."
       );
@@ -44,7 +44,9 @@ module.exports = {
       }
     // once we've checked for either a color hex or clear command, check for color names, or usernames.
     } else {
-      const colorFromName = toHex(arg);
+      //make sure to check joined args for a valid color too, in case someone writes something like '/color hot pink'
+      const colorFromName = toHex(args.join('')) || toHex(arg);
+
       // if it's a valid color name, apply it
       if (colorFromName) {
         try {
