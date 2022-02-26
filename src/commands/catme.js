@@ -11,20 +11,16 @@ module.exports = {
 
     console.log('getting cat');
 
-    cataas.get()
-      .then(readable => {
-
-        console.log('writing cat to fs');
-        const stream = new fs.createWriteStream('./cat.png');
-        readable.pipe(stream);
-
-        console.log('sending cat message');
-
-        msg.channel.send({
-          files: [
-            './cat.png'
-          ]
-        }).catch(e => console.error(e));
+    cataas.download('./cat.png')
+      .then(successful => {
+        if (successful) {
+          console.log('Downloaded cat successfully');
+          msg.channel.send({
+            files: [
+              './cat.png'
+            ]
+          });
+        }
       }).catch(e => console.error(e));
-  },
+  }
 };
