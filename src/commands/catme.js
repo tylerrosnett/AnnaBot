@@ -11,7 +11,7 @@ module.exports = {
 
     console.log('getting cat');
 
-    cataas.get()
+    await cataas.get()
       .then(readable => {
         console.log('writing cat to fs');
         const stream = new fs.createWriteStream('./cat.png');
