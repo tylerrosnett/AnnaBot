@@ -16,8 +16,7 @@ module.exports = {
         console.log('writing cat to fs');
         const stream = new fs.createWriteStream('./cat.png');
         readable.pipe(stream);
-      })
-      .catch(e => console.error(e));
+      }).catch(e => console.error(e));
 
     console.log('sending cat message');
 
@@ -25,6 +24,6 @@ module.exports = {
       files: [
         './cat.png'
       ]
-    });
+    }).catch(e => console.error(e));
   },
 };
