@@ -11,19 +11,20 @@ module.exports = {
 
     console.log('getting cat');
 
-    await cataas.get()
+    cataas.get()
       .then(readable => {
+
         console.log('writing cat to fs');
         const stream = new fs.createWriteStream('./cat.png');
         readable.pipe(stream);
+
+        console.log('sending cat message');
+
+        msg.channel.send({
+          files: [
+            './cat.png'
+          ]
+        }).catch(e => console.error(e));
       }).catch(e => console.error(e));
-
-    console.log('sending cat message');
-
-    await msg.channel.send({
-      files: [
-        './cat.png'
-      ]
-    }).catch(e => console.error(e));
   },
 };
