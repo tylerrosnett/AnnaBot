@@ -10,7 +10,7 @@ module.exports = {
   aliases: ['cs'],
   async execute(msg) {
 
-    const encodedUrl = 'https://cataas.com/cat/says/' + encodeURIComponent(msg.content.replace('/catsay ', '').replace('/cs', ''));
+    const encodedUrl = 'https://cataas.com/cat/says/' + encodeURIComponent(msg.content.replace('/catsays ', '').replace('/cs', ''));
     const url = new URL(encodedUrl);
 
     const file = fs.createWriteStream('./catsay.png');
