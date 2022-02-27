@@ -9,8 +9,6 @@ module.exports = {
   aliases: ['cm'],
   async execute(msg) {
 
-    console.log(msg);
-
     const file = fs.createWriteStream('./cat.png');
 
     https.get(url, res => {
@@ -21,7 +19,7 @@ module.exports = {
 
         res.pipe(file).on('finish', () => {
           file.close();
-          msg.channel.send({
+          msg.reply({
             files: ['./cat.png']
           });
         });

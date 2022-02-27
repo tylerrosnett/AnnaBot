@@ -28,7 +28,7 @@ module.exports = (msg, tokenInfo) => {
   }
 
   if (!targetCommand) {
-    msg.reply('Command not found. type \'/help\' to see a list of commands.');
+    console.log('Command not found. type \'/help\' to see a list of commands.');
   } else {
     const command = msg.client.commands.get(targetCommand);
 
