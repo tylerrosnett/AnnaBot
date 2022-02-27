@@ -5,7 +5,7 @@ const url = new URL('https://random-d.uk/api/v2/randomimg');
 
 module.exports = {
   name: 'ducky',
-  description: 'Responds with a random cat picture.',
+  description: 'Responds with a random ducky.',
   aliases: ['d'],
   async execute(msg) {
 
