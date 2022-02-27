@@ -1,26 +1,32 @@
 const fs = require('fs');
-const Cataas = require('cataas-api');
+const https = require('https');
+
+const url = new URL('https://cataas.com/cat');
 
 module.exports = {
   name: 'catme',
-  description: 'responds with a picture of a cat',
+  description: 'Responds with a random cat picture.',
+  aliases: ['cm'],
   async execute(msg) {
 
-    let cataas = new Cataas();
-    cataas.encode();
+    console.log(msg);
 
-    console.log('getting cat');
+    const file = fs.createWriteStream('./cat.png');
 
-    cataas.download('./cat.png')
-      .then(successful => {
-        if (successful) {
-          console.log('Downloaded cat successfully');
+    https.get(url, res => {
+
+      if (res.statusCode !== 200) {
+        console.log(new Error(`Request Failed.\nStatus Code: ${res.statusCode}`));
+      } else {
+
+        res.pipe(file).on('finish', () => {
+          file.close();
           msg.channel.send({
-            files: [
-              './cat.png'
-            ]
+            files: ['./cat.png']
           });
-        }
-      }).catch(e => console.error(e));
+        });
+
+      }
+    });
   }
 };

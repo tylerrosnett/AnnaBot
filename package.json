@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "cataas-api": "^1.1.2",
     "colornames": "^1.1.1",
     "cron": "^1.8.2",
     "discord.js": "^12.5.1",

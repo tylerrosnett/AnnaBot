@@ -4,4 +4,4 @@ node_modules*
 .DS_Store
 yarn.lock
 /.idea/
-cat.png
+*.png
