@@ -5,7 +5,7 @@ const url = new URL('https://cataas.com/cat/gif');
 
 module.exports = {
   name: 'catgif',
-  description: 'Responds with a random cat picture.',
+  description: 'Responds with a random cat gif.',
   aliases: ['cg'],
   async execute(msg) {
 
